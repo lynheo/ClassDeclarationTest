@@ -1,60 +1,64 @@
-template<typename T>
+#include <iostream>
+#include <float.h>
+
+template <typename T> 
 class B;
 
-template<>
-class B<int>;
-
-template<typename T>
+template <typename T> 
 class A
 {
 };
 
-template<>
+template <>
 class A<int>
 {
-    private:
-        int a;
-    public:
-        A() : a(0) {};
-        void set(int _val)
-        {
-            a = _val;
-        };
-        int& getRef()
-        {
-            return  a;
-        };
-    A   operator+(const A& _var)
-    {
-        A<int>  result;
-        B<int>  b = *this;
+private:
+	int a;
+public:
+	A() :a(0)
+	{
 
-        /* 
-            참조 클래스인 B의 인스턴스 b를 이용하는 부분...
-        */
-        result.a = a + _var.a;
+	};
+	void set(int _val)
+	{
+		a = _val;
+	};
 
-        return  result;
-    };
+	int& getRef()
+	{
+		return a;
+	};
+
+	A<int> operator+ (const A<int>& _var);
 };
 
-template<typename T>
+
+template <typename T> 
 class B
 {
 };
 
-template<>
+template <>
 class B<int>
 {
-    private:
-        int &aRef;
-    public:
-        B(A<int>& _var) : aRef(_var.getRef()) {};
+private:
+	int& aRef;
+public:
+	B(A<int>& _var) :aRef(_var.getRef())
+	{
+	};
 };
+
+A<int> A<int>::operator+ (const A<int>& _var)
+{
+	A<int> result;
+	B<int> b(*this);
+
+	result.a = a + _var.a;
+	return result;
+}
 
 int main()
 {
-    
-
-    return  0;
+	return 0;
 }
